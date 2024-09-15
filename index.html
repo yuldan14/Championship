@@ -6,14 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informatics Champions</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .start {
+            margin-bottom: 20px;
+            margin-top: 3rem;
+        }
+        .timer{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            align-items: center;
+        }
 
+        .start a {
+            text-decoration: none;
+            background-color: green;
+            padding: 1rem 2rem;
+            color: white;
+            border-radius: 20px;
+        }
+
+        #timer {
+            font-size: 2em;
+            color: green;
+        }
+        .time-over-message {
+            font-size: 2.5em;
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vh;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
     <nav>
         INFORMATICS CHAMPIONS
     </nav>
+    <div class="timer">
+        <div class="start">
+            <a href="#" id="startButton">Start</a>
+        </div>
 
+        <div id="timer">1:0:00</div>
+    </div>
     <div class="card-container">
         <div class="card" id="php">
             <div class="foto-penemu">
@@ -45,8 +88,7 @@
                     alt="Penemu PHP">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Rob-pike-oscon.jpg/480px-Rob-pike-oscon.jpg"
                     alt="Penemu PHP">
-                <img src="https://www.thefamouspeople.com/profiles/images/ken-thompson-3.jpg"
-                    alt="Penemu PHP">
+                <img src="https://www.thefamouspeople.com/profiles/images/ken-thompson-3.jpg" alt="Penemu PHP">
             </div>
             <div class="deskripsi">
                 <h4>Golang</h4>
@@ -57,8 +99,7 @@
         </div>
         <div class="card" id="kotlin">
             <div class="foto-penemu">
-                <img src="https://talkingkotlin.com/images/episodes/andrey-breslav.jpeg"
-                    alt="Penemu Kotlin">
+                <img src="https://talkingkotlin.com/images/episodes/andrey-breslav.jpeg" alt="Penemu Kotlin">
             </div>
             <div class="deskripsi">
                 <h4>Kotlin</h4>
@@ -216,8 +257,7 @@
         </div>
         <div class="card" id="Shell">
             <div class="foto-penemu">
-                <img src="https://www.thefamouspeople.com/profiles/images/ken-thompson-3.jpg"
-                    alt="Penemu Shell">
+                <img src="https://www.thefamouspeople.com/profiles/images/ken-thompson-3.jpg" alt="Penemu Shell">
             </div>
             <div class="deskripsi">
                 <h4>Shell</h4>
@@ -294,6 +334,67 @@
 
 
     </div>
+
+
+
+    <script>
+        // Fungsi untuk memformat waktu
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        // Fungsi untuk menghitung waktu mundur
+        function startCountdown(duration, display) {
+            let endTime = Date.now() + duration * 1000; // Hitung waktu akhir
+            localStorage.setItem('endTime', endTime); // Simpan waktu akhir di localStorage
+
+            const countdown = setInterval(function () {
+                let now = Date.now();
+                let remainingTime = Math.floor((endTime - now) / 1000); // Hitung sisa waktu
+
+                if (remainingTime >= 0) {
+                    display.textContent = formatTime(remainingTime);
+                } else {
+                    clearInterval(countdown);
+                    localStorage.removeItem('endTime'); // Hapus waktu akhir dari localStorage saat selesai
+                    document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
+                }
+            }, 1000);
+        }
+
+        // Fungsi untuk menginisialisasi timer
+        function initTimer() {
+            const display = document.getElementById('timer');
+            const savedEndTime = localStorage.getItem('endTime');
+            const oneHour = 60 * 60; // 1 jam dalam detik
+
+            if (savedEndTime) {
+                // Jika ada waktu yang tersimpan, hitung sisa waktu
+                let remainingTime = Math.floor((savedEndTime - Date.now()) / 1000);
+
+                if (remainingTime > 0) {
+                    startCountdown(remainingTime, display); // Mulai hitung mundur dengan sisa waktu
+                    document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                } else {
+                    localStorage.removeItem('endTime'); // Jika waktu tersimpan sudah habis, reset
+                }
+            }
+
+            document.getElementById('startButton').addEventListener('click', function (e) {
+                e.preventDefault();
+                if (!savedEndTime) {
+                    startCountdown(oneHour, display); // Mulai hitung mundur
+                    document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                }
+            });
+        }
+
+        // Inisialisasi timer saat halaman dimuat
+        window.onload = initTimer;
+    </script>
 </body>
 
 </html>
