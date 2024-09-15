@@ -42,12 +42,14 @@ nav{
     justify-content: center;
     display: flex;
     margin-top: 10px;
+    height: 150px;
 }
 .foto-penemu img{
     border-radius: 25%;
     aspect-ratio: 1/1;
     object-fit:cover;
     width: 150px;
+    height: max-content;
 
 }
 .card#golang .foto-penemu img{
@@ -56,6 +58,7 @@ nav{
 .card#golang .foto-penemu{
     display: flex;
     gap: 30px;
+    align-items: center;
 }
 .card#swift .foto-penemu img,
 .card#TS .foto-penemu img,
@@ -68,6 +71,7 @@ nav{
 .card#R .foto-penemu{
     display: flex;
     gap: 30px;
+    align-items: center;
 }
 .card#R .foto-penemu img{
     width: 120px;
