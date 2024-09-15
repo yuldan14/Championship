@@ -58,8 +58,22 @@ nav{
     gap: 30px;
 }
 .card#swift .foto-penemu img,
-.card#TS .foto-penemu img{
+.card#TS .foto-penemu img,
+.card#Dart .foto-penemu img{
     object-fit: contain;
+}
+.card#Pearl .foto-penemu img{
+    object-position: 0px 0px;
+}
+.card#R .foto-penemu{
+    display: flex;
+    gap: 30px;
+}
+.card#R .foto-penemu img{
+    width: 120px;
+}
+.card#Scala .foto-penemu img{
+    object-position: 0px 0px;
 }
 .deskripsi h4{
     text-align: center;
