@@ -62,9 +62,12 @@ nav{
 }
 .card#swift .foto-penemu img,
 .card#TS .foto-penemu img,
-.card#Dart .foto-penemu img{
+.card#Dart .foto-penemu img,
+.card#Erlang .foto-penemu img{
     object-fit: contain;
+    border-radius: 0;
 }
+
 .card#Pearl .foto-penemu img{
     object-position: 0px 0px;
 }
@@ -76,8 +79,12 @@ nav{
 .card#R .foto-penemu img{
     width: 120px;
 }
-.card#Scala .foto-penemu img{
+.card#Scala .foto-penemu img,
+.card#Fortran .foto-penemu img{
     object-position: 0px 0px;
+}
+.card#Julia .foto-penemu img{
+    object-position: 0px -10px;
 }
 .deskripsi h4{
     text-align: center;
