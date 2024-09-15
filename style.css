@@ -17,6 +17,7 @@ nav{
     align-items: center;
     top: 0;
     position: sticky;
+    color: white;
 }
 
 .card-container{
@@ -30,8 +31,9 @@ nav{
 
 .card-container .card{
     width: 350px;
+    padding-top: 2rem;
     background-color: rgba(83, 80, 80, 0.11);
-    height: 300px;
+    height: 350px;
     border-radius: 20px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -63,4 +65,6 @@ nav{
 .deskripsi p{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 1rem;
 }
