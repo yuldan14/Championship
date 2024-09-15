@@ -45,7 +45,15 @@ nav{
     border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit:contain;
+    width: 150px;
 
+}
+.card#golang .foto-penemu img{
+    width: 80px;
+}
+.card#golang .foto-penemu{
+    display: flex;
+    gap: 30px;
 }
 .deskripsi h4{
     text-align: center;
