@@ -475,29 +475,16 @@
                 } else {
                     clearInterval(countdown);
                     localStorage.removeItem('endTime'); // Hapus waktu akhir dari localStorage saat selesai
-                    localStorage.setItem('timeOver', true); // Set flag bahwa waktu habis
-                    showTimeOverMessage(); // Tampilkan pesan waktu habis
+                    document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
                 }
             }, 1000);
-        }
-
-        // Fungsi untuk menampilkan pesan waktu habis
-        function showTimeOverMessage() {
-            document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
         }
 
         // Fungsi untuk menginisialisasi timer
         function initTimer() {
             const display = document.getElementById('timer');
             const savedEndTime = localStorage.getItem('endTime');
-            const oneHour = 60 * 60; // 1 jam dalam detik
-            const isTimeOver = localStorage.getItem('timeOver');
-
-            // Jika waktu sudah habis, langsung tampilkan pesan waktu habis
-            if (isTimeOver) {
-                showTimeOverMessage();
-                return;
-            }
+            const oneHour = 3600; // 1 jam dalam detik
 
             if (savedEndTime) {
                 // Jika ada waktu yang tersimpan, hitung sisa waktu
@@ -506,13 +493,9 @@
                 if (remainingTime > 0) {
                     startCountdown(remainingTime, display); // Mulai hitung mundur dengan sisa waktu
                     document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
-                    document.querySelector('.timer').style.justifyContent = 'center'; // Sembunyikan tombol Start
-                    document.querySelector('.timer').offsetHeight; // Force reflow
-
+                    document.querySelector('.timer').style.justifyContent = 'center';
                 } else {
                     localStorage.removeItem('endTime'); // Jika waktu tersimpan sudah habis, reset
-                    localStorage.setItem('timeOver', true); // Set flag waktu habis
-                    showTimeOverMessage(); // Tampilkan pesan waktu habis
                 }
             }
 
@@ -521,6 +504,8 @@
                 if (!savedEndTime) {
                     startCountdown(oneHour, display); // Mulai hitung mundur
                     document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                    document.querySelector('.timer').style.justifyContent = 'center';
+
                 }
             });
         }
@@ -536,59 +521,83 @@
             const s = Math.floor(seconds % 60);
             return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         }
-
+    
         // Fungsi untuk menghitung waktu mundur
         function startCountdown(duration, display) {
             let endTime = Date.now() + duration * 1000; // Hitung waktu akhir
             localStorage.setItem('endTime', endTime); // Simpan waktu akhir di localStorage
-
+    
             const countdown = setInterval(function () {
                 let now = Date.now();
                 let remainingTime = Math.floor((endTime - now) / 1000); // Hitung sisa waktu
-
+    
                 if (remainingTime >= 0) {
                     display.textContent = formatTime(remainingTime);
                 } else {
                     clearInterval(countdown);
                     localStorage.removeItem('endTime'); // Hapus waktu akhir dari localStorage saat selesai
-                    document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
+                    localStorage.setItem('timeOver', true); // Set flag bahwa waktu habis
+                    localStorage.setItem('timeOverExpiry', Date.now() + 60000); // Simpan waktu kadaluarsa (1 menit)
+                    showTimeOverMessage(); // Tampilkan pesan waktu habis
                 }
             }, 1000);
         }
-
+    
+        // Fungsi untuk menampilkan pesan waktu habis
+        function showTimeOverMessage() {
+            document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
+        }
+    
         // Fungsi untuk menginisialisasi timer
         function initTimer() {
             const display = document.getElementById('timer');
             const savedEndTime = localStorage.getItem('endTime');
             const oneHour = 10; // 1 jam dalam detik
-
+            const isTimeOver = localStorage.getItem('timeOver');
+            const timeOverExpiry = localStorage.getItem('timeOverExpiry');
+    
+            // Jika waktu habis tersimpan dan masih dalam periode 1 menit
+            if (isTimeOver && timeOverExpiry && Date.now() < timeOverExpiry) {
+                showTimeOverMessage();
+                return;
+            }
+    
+            // Jika flag waktu habis sudah kadaluarsa, hapus dari localStorage
+            if (isTimeOver && timeOverExpiry && Date.now() >= timeOverExpiry) {
+                localStorage.removeItem('timeOver');
+                localStorage.removeItem('timeOverExpiry');
+            }
+    
             if (savedEndTime) {
                 // Jika ada waktu yang tersimpan, hitung sisa waktu
                 let remainingTime = Math.floor((savedEndTime - Date.now()) / 1000);
-
+    
                 if (remainingTime > 0) {
                     startCountdown(remainingTime, display); // Mulai hitung mundur dengan sisa waktu
                     document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
-                    document.querySelector('.timer').style.justifyContent = 'center';
+                    document.querySelector('.timer').style.justifyContent ='center';
                 } else {
                     localStorage.removeItem('endTime'); // Jika waktu tersimpan sudah habis, reset
+                    localStorage.setItem('timeOver', true); // Set flag waktu habis
+                    localStorage.setItem('timeOverExpiry', Date.now() + 60000); // Simpan waktu kadaluarsa (1 menit)
+                    showTimeOverMessage(); // Tampilkan pesan waktu habis
                 }
             }
-
+    
             document.getElementById('startButton').addEventListener('click', function (e) {
                 e.preventDefault();
                 if (!savedEndTime) {
                     startCountdown(oneHour, display); // Mulai hitung mundur
                     document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
-                    document.querySelector('.timer').style.justifyContent = 'center';
-
+                    document.querySelector('.timer').style.justifyContent ='center';
                 }
             });
         }
-
+    
         // Inisialisasi timer saat halaman dimuat
         window.onload = initTimer;
     </script>
+    
 </body>
 
 </html>
