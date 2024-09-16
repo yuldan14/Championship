@@ -54,7 +54,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            width: 100vh;
+            width: 100%;
             text-align: center;
         }
     </style>
@@ -452,7 +452,7 @@
 
 
 
-    <script>
+    <!-- <script>
         // Fungsi untuk memformat waktu
         function formatTime(seconds) {
             const h = Math.floor(seconds / 3600);
@@ -507,6 +507,8 @@
                     startCountdown(remainingTime, display); // Mulai hitung mundur dengan sisa waktu
                     document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
                     document.querySelector('.timer').style.justifyContent = 'center'; // Sembunyikan tombol Start
+                    document.querySelector('.timer').offsetHeight; // Force reflow
+
                 } else {
                     localStorage.removeItem('endTime'); // Jika waktu tersimpan sudah habis, reset
                     localStorage.setItem('timeOver', true); // Set flag waktu habis
@@ -525,8 +527,68 @@
 
         // Inisialisasi timer saat halaman dimuat
         window.onload = initTimer;
-    </script>
+    </script> -->
+    <script>
+        // Fungsi untuk memformat waktu
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
 
+        // Fungsi untuk menghitung waktu mundur
+        function startCountdown(duration, display) {
+            let endTime = Date.now() + duration * 1000; // Hitung waktu akhir
+            localStorage.setItem('endTime', endTime); // Simpan waktu akhir di localStorage
+
+            const countdown = setInterval(function () {
+                let now = Date.now();
+                let remainingTime = Math.floor((endTime - now) / 1000); // Hitung sisa waktu
+
+                if (remainingTime >= 0) {
+                    display.textContent = formatTime(remainingTime);
+                } else {
+                    clearInterval(countdown);
+                    localStorage.removeItem('endTime'); // Hapus waktu akhir dari localStorage saat selesai
+                    document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
+                }
+            }, 1000);
+        }
+
+        // Fungsi untuk menginisialisasi timer
+        function initTimer() {
+            const display = document.getElementById('timer');
+            const savedEndTime = localStorage.getItem('endTime');
+            const oneHour = 3600; // 1 jam dalam detik
+
+            if (savedEndTime) {
+                // Jika ada waktu yang tersimpan, hitung sisa waktu
+                let remainingTime = Math.floor((savedEndTime - Date.now()) / 1000);
+
+                if (remainingTime > 0) {
+                    startCountdown(remainingTime, display); // Mulai hitung mundur dengan sisa waktu
+                    document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                    document.querySelector('.timer').style.justifyContent = 'center';
+                } else {
+                    localStorage.removeItem('endTime'); // Jika waktu tersimpan sudah habis, reset
+                }
+            }
+
+            document.getElementById('startButton').addEventListener('click', function (e) {
+                e.preventDefault();
+                if (!savedEndTime) {
+                    startCountdown(oneHour, display); // Mulai hitung mundur
+                    document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                    document.querySelector('.timer').style.justifyContent = 'center';
+
+                }
+            });
+        }
+
+        // Inisialisasi timer saat halaman dimuat
+        window.onload = initTimer;
+    </script>
 </body>
 
 </html>
