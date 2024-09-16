@@ -63,22 +63,29 @@ nav{
 .card#swift .foto-penemu img,
 .card#TS .foto-penemu img,
 .card#Dart .foto-penemu img,
-.card#Erlang .foto-penemu img{
+.card#Erlang .foto-penemu img,
+.card#F .foto-penemu img,
+.card#VB .foto-penemu img,
+.card#matlab .foto-penemu img{
     object-fit: contain;
     border-radius: 0;
 }
 
-.card#Pearl .foto-penemu img{
+.card#Pearl .foto-penemu img,
+.card#Lua .foto-penemu img{
     object-position: 0px 0px;
 }
-.card#R .foto-penemu{
+.card#R .foto-penemu,
+.card#Objective-C .foto-penemu{
     display: flex;
     gap: 30px;
     align-items: center;
 }
-.card#R .foto-penemu img{
+.card#R .foto-penemu img,
+.card#Objective-C .foto-penemu img{
     width: 120px;
 }
+
 .card#Scala .foto-penemu img,
 .card#Fortran .foto-penemu img{
     object-position: 0px 0px;
@@ -96,4 +103,12 @@ nav{
     padding-left: 1rem;
     padding-right: 1rem;
     margin-top: 1rem;
+}
+
+.end{
+    background: linear-gradient(to right, rgba(190, 44, 219, 0.575), rgba(204, 151, 4, 0.486));
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
