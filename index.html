@@ -53,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 90vh;
             width: 100%;
             text-align: center;
         }
@@ -69,7 +69,7 @@
             <a href="#" id="startButton">Start</a>
         </div>
 
-        <div id="timer">1:0:00</div>
+        <div id="timer">0:00:10</div>
     </div>
     <div class="card-container">
         <div class="card" id="php">
@@ -552,7 +552,7 @@
         function initTimer() {
             const display = document.getElementById('timer');
             const savedEndTime = localStorage.getItem('endTime');
-            const oneHour = 10; // 1 jam dalam detik
+            const oneHour = 11; // 1 jam dalam detik
             const isTimeOver = localStorage.getItem('timeOver');
             const timeOverExpiry = localStorage.getItem('timeOverExpiry');
     
