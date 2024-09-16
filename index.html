@@ -8,22 +8,34 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .start {
-            margin-bottom: 20px;
-            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
         }
 
         .timer {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-evenly;
+            position: fixed;
+            /* Mengatur posisi sticky */
+            bottom: 0;
+            /* Agar tetap di bawah */
             width: 100%;
+            height: 4rem;
             align-items: center;
+            background-color: white;
+            /* Tambahkan background agar terlihat saat scroll */
+            /* Sedikit bayangan untuk efek */
+            z-index: 1000;
+            /* Pastikan timer berada di atas elemen lainnya */
         }
+
 
         .start a {
             text-decoration: none;
             background-color: green;
-            padding: 1rem 2rem;
+            padding: .4rem 1.4rem;
             color: white;
             border-radius: 20px;
         }
@@ -429,7 +441,8 @@
                 <h4>Lisp</h4>
                 <p>Pembuat : John McCarthy</p>
                 <p>Rilis Perdana: 1958</p>
-                <p>Digunakan untuk : Penelitian AI, manipulasi data simbolis, implementasi bahasa pemrograman lainnya.</p>
+                <p>Digunakan untuk : Penelitian AI, manipulasi data simbolis, implementasi bahasa pemrograman lainnya.
+                </p>
             </div>
         </div>
     </div>
@@ -462,9 +475,15 @@
                 } else {
                     clearInterval(countdown);
                     localStorage.removeItem('endTime'); // Hapus waktu akhir dari localStorage saat selesai
-                    document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
+                    localStorage.setItem('timeOver', true); // Set flag bahwa waktu habis
+                    showTimeOverMessage(); // Tampilkan pesan waktu habis
                 }
             }, 1000);
+        }
+
+        // Fungsi untuk menampilkan pesan waktu habis
+        function showTimeOverMessage() {
+            document.body.innerHTML = '<h1 class="time-over-message">Waktu Menghafal Telah Habis :) Goodluck💪💪</h1>';
         }
 
         // Fungsi untuk menginisialisasi timer
@@ -472,6 +491,13 @@
             const display = document.getElementById('timer');
             const savedEndTime = localStorage.getItem('endTime');
             const oneHour = 60 * 60; // 1 jam dalam detik
+            const isTimeOver = localStorage.getItem('timeOver');
+
+            // Jika waktu sudah habis, langsung tampilkan pesan waktu habis
+            if (isTimeOver) {
+                showTimeOverMessage();
+                return;
+            }
 
             if (savedEndTime) {
                 // Jika ada waktu yang tersimpan, hitung sisa waktu
@@ -480,8 +506,11 @@
                 if (remainingTime > 0) {
                     startCountdown(remainingTime, display); // Mulai hitung mundur dengan sisa waktu
                     document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                    document.querySelector('.timer').style.justifyContent = 'center'; // Sembunyikan tombol Start
                 } else {
                     localStorage.removeItem('endTime'); // Jika waktu tersimpan sudah habis, reset
+                    localStorage.setItem('timeOver', true); // Set flag waktu habis
+                    showTimeOverMessage(); // Tampilkan pesan waktu habis
                 }
             }
 
@@ -497,6 +526,7 @@
         // Inisialisasi timer saat halaman dimuat
         window.onload = initTimer;
     </script>
+
 </body>
 
 </html>
