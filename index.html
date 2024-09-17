@@ -38,11 +38,13 @@
             padding: .4rem 1.4rem;
             color: white;
             border-radius: 20px;
+            transition: all 1s ease;
         }
 
         #timer {
             font-size: 2em;
             color: green;
+            transition: all 1s ease;
         }
 
         .time-over-message {
@@ -588,8 +590,10 @@
                 e.preventDefault();
                 if (!savedEndTime) {
                     startCountdown(oneHour, display); // Mulai hitung mundur
-                    document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
-                    document.querySelector('.timer').style.justifyContent ='center';
+                    // document.getElementById('startButton').style.display = 'none'; // Sembunyikan tombol Start
+                    // document.querySelector('.timer').style.justifyContent ='center';
+                    document.querySelector('.start a').classList.add('hide');
+                    document.getElementById('timer').classList.add('center');
                 }
             });
         }

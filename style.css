@@ -113,3 +113,25 @@ nav{
     display: flex;
     margin-bottom: 4rem ;
 }
+/* Animasi untuk tombol Start */
+@keyframes moveAndDisappear {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(50%); /* Menghilang */
+    }
+}
+
+/* Ketika tombol start diklik */
+.start a.hide {
+    animation: moveAndDisappear 1s forwards;
+}
+
+/* Animasi untuk timer pindah ke tengah */
+#timer.center {
+    transform: translateX(-70%);
+    transition: all 1s ease;
+}
